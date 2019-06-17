@@ -1,0 +1,129 @@
+escape ^^^^
+
+startup_message off
+
+hardstatus off
+hardstatus alwayslastline
+#hardstatus string '%{= kG}[ %{G}%H %{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{B} %d-%m-%y %{W} %c %{g}]'
+hardstatus alwayslastline "%{rk}%H %{gk}%c %{yk}%M%d %{wk}%?%-Lw%?%{bw}%n*%f %t%?(%u)%?%{wk}%?%+Lw%?"
+
+#shell -$SHELL
+
+
+term urxvt-unicode-256color
+
+
+
+attrcolor b ".I"    # allow bold colors - necessary for some reason
+termcapinfo xterm 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'   # tell screen how to set colors. AB = background, AF=foreground
+altscreen on
+defbce on
+#set term=screen-256color
+
+
+#bindkey "^[[5~" prev
+#bindkey "^[[6~" next
+bindkey "^[[5;3~" prev
+bindkey "^[[6;3~" next
+
+
+
+
+bind = resize =
+bind + resize +3
+bind - resize -3
+
+bind q quit
+
+
+
+# ignore case on searches in copy-mode
+ignorecase on
+
+# assume UTF-8 encoding
+defutf8 on
+
+
+# disable flow control as it conflicts with Ctrl-S prefix
+defflow off
+
+
+# remove delay after pressing escape key inside screen
+maptimeout 0
+
+# start screen with a new layout (none by default)
+layout new initial
+
+# wait up to three seconds before hiding last message (default is 5 seconds)
+msgwait 3
+
+# use big scrollback buffer
+defscrollback 5000
+
+# suppress trailing blank lines when scrolling up text into the history buffer
+compacthist on
+
+# set color of borders and command-line (cyan background, black foreground)
+##rendition so = ck
+
+
+
+## layouts
+# create new layout with a shell prompt
+bind c eval 'layout new' screen
+
+# switch between layouts with Alt+Number
+bindkey "^[0" layout select 0
+bindkey "^[1" layout select 1
+bindkey "^[2" layout select 2
+bindkey "^[3" layout select 3
+bindkey "^[4" layout select 4
+bindkey "^[5" layout select 5
+bindkey "^[6" layout select 6
+bindkey "^[7" layout select 7
+bindkey "^[8" layout select 8
+bindkey "^[9" layout select 9
+
+# switch to next layout
+bind n layout next
+
+# switch to previous layout
+bind p layout prev
+
+# create new empty layout
+bind N layout new
+
+# remove current layout
+bind q layout remove
+
+
+######## copy mode
+###### v - start selection
+###### y - start line-wise selection
+###### J - scroll down
+###### K - scroll up
+#####markkeys "^M=v:y=V:^E=J:^Y=K"
+#####
+###### > - copy selection to system clipboard
+###### bindkey -m > eval "stuff ' '" writebuf "exec sh -c 'xsel < /tmp/screen-exchange'"
+
+
+
+
+
+##### Resize mode
+# put screen into resize mode
+bind R command -c rsz
+
+# use hjkl keys to resize regions
+bind -c rsz h eval "resize -h -5" "command -c rsz"
+bind -c rsz j eval "resize -v -5" "command -c rsz"
+bind -c rsz k eval "resize -v +5" "command -c rsz"
+bind -c rsz l eval "resize -h +5" "command -c rsz"
+
+# use HJKL keys to move between regions
+bind -c rsz H eval "focus left"  "command -c rsz"
+bind -c rsz J eval "focus down"  "command -c rsz"
+bind -c rsz K eval "focus up"    "command -c rsz"
+bind -c rsz L eval "focus right" "command -c rsz"
+
